@@ -104,6 +104,7 @@ router.get("/verify", async (req, res) => {
 
   router.get("/data", authentication, async (req, res) => {
     try {
+      console.log(req.userId);
       const data = await userModel
         .findById({ _id: req.userId })
         .select("firstName lastName email processedURL -_id");
