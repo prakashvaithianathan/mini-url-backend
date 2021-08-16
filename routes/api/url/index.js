@@ -10,7 +10,7 @@ router.get('/',(req, res) => {
     res.send('this is url route')
 })
 
-const baseUrl = 'http://localhost:5000'
+const baseUrl = 'https://mini-url-backend.herokuapp.com/'
 
 router.post('/shorten',async(req, res) => {
       

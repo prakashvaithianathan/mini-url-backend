@@ -125,4 +125,42 @@ router.get("/verify", async (req, res) => {
     }
   });
 
+  router.put('/forgot',async (req, res) => {
+    try {
+      
+      const token = req.headers['authorization']
+      const {userId} = await jwt.verify(token, process.env.SECRET_KEY)
+      const hash = await bcrypt.hash(req.body.password,10)
+    
+      const updateUser = await userModel.findByIdAndUpdate({_id:userId},{password:hash,verified:false},{new:true})
+      
+      const composeMail = {
+        from:process.env.USER_EMAIL,
+        to:req.body.email,
+        subject:'Mail from Mini Url',
+        html: `
+        <div>
+        <p><b>Hi, ${
+          req.body.firstName + " " + req.body.lastName
+        }</b>. You successfully reset your password</p>
+        <p>To verify your account, click below</p>
+        <a href="http://localhost:3000/verify/${token}">Click Here</a>
+        </div>
+        `,
+    }
+sender.sendMail(composeMail,(err,data)=>{
+   if(err){
+       console.log(err);
+   }else{
+       console.log('mail sended successfuly' + data.response);
+   }
+})
+    
+      
+      return res.json({message:'password Updated'})
+    } catch (error) {
+      return res.json({message: error.message})
+    }
+  })
+
 module.exports = router;
