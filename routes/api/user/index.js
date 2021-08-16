@@ -40,7 +40,7 @@ router.post('/signup',async(req, res) => {
            req.body.firstName + " " + req.body.lastName
          }</b>. We welcome to our platform</p>
          <p>To verify your account, click below</p>
-         <a href="http://localhost:3000/verify/${token}">Click Here</a>
+         <a href="https://minifyurl.netlify.app/verify/${token}">Click Here</a>
          </div>
          `,
      }
@@ -144,7 +144,7 @@ router.get("/verify", async (req, res) => {
           req.body.firstName + " " + req.body.lastName
         }</b>. You successfully reset your password</p>
         <p>To verify your account, click below</p>
-        <a href="http://localhost:3000/verify/${token}">Click Here</a>
+        <a href="https://minifyurl.netlify.app/verify/${token}">Click Here</a>
         </div>
         `,
     }
