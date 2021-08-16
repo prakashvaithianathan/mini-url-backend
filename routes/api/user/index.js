@@ -104,9 +104,10 @@ router.get("/verify", async (req, res) => {
 
   router.get("/data", authentication, async (req, res) => {
     try {
-      console.log(req.userId);
+      const token=req.headers['authorization']
+      const {userId} = await jwt.verify(token, process.env.SECRET_KEY)
       const data = await userModel
-        .findById({ _id: req.userId })
+        .findById({ _id: userId })
         .select("firstName lastName email processedURL -_id");
       res.json({ data });
     } catch (error) {
@@ -142,7 +143,7 @@ router.get("/verify", async (req, res) => {
         html: `
         <div>
         <p><b>Hi, ${
-          req.body.firstName + " " + req.body.lastName
+          updateUser.firstName + " " + updateUser.lastName
         }</b>. You successfully reset your password</p>
         <p>To verify your account, click below</p>
         <a href="https://minifyurl.netlify.app/verify/${token}">Click Here</a>
